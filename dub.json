@@ -1,0 +1,12 @@
+{
+	"name": "razer",
+	"authors": [
+		"Bogdan Szabo"
+	],
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2018, Bogdan Szabo",
+	"license": "proprietary",
+
+	"dependencies": {
+	}
+}
