@@ -12,3 +12,4 @@ razer-test-*
 *.o
 *.obj
 *.lst
+/razer
