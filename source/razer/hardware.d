@@ -2,7 +2,7 @@ module razer.hardware;
 
 ///
 interface RazerDevice {
-  static pure {
+  pure {
     ///
     string eventFileRegex();
     
@@ -41,7 +41,7 @@ mixin template RazerDeviceFields(
     string _sideImg,
     string _perspectiveImg
 ) {
-  static pure {
+  pure {
     ///
     string eventFileRegex() {
       return _eventFileRegex;
@@ -197,7 +197,7 @@ class RazerBlackWidowChroma : RazerDevice {
 }
 
 ///
-class razerBlackWidowChromaV2 : RazerDevice {
+class RazerBlackWidowChromaV2 : RazerDevice {
   ///MATRIX_DIMS = [6, 22]
 
   mixin RazerDeviceFields!(".*BlackWidow_Chroma_V2(-if01)?-event-kbd",
@@ -234,7 +234,7 @@ class RazerBlackWidowXChroma : RazerDevice {
 
 
 ///
-class razerBlackWidowXTournamentEditionChroma : RazerDevice {
+class RazerBlackWidowXTournamentEditionChroma : RazerDevice {
   ///MATRIX_DIMS = [6, 22]
 
   mixin RazerDeviceFields!(".*BlackWidow_X_Tournament_Edition_Chroma(-if01)?-event-kbd",
@@ -267,7 +267,6 @@ class RazerBladeStealthLate2016 : RazerDevice {
     "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-22__store_gallery.png",
     "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-02__store_gallery.png");
 }
-
 
 ///
 class RazerBladeLate2016 : RazerDevice {
@@ -392,4 +391,46 @@ class RazerBladeStealthLate2017 : RazerDevice {
     "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-15__store_gallery.png",
     "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-22__store_gallery.png",
     "https://assets.razerzone.com/eeimages/products/26727/rzrblade14-02__store_gallery.png");
+}
+
+///
+enum RazerDevices = [
+  "RazerNostromo",
+  "RazerTartarus",
+  "RazerTartarusChroma",
+  "RazerOrbweaver",
+  "RazerOrbweaverChroma",
+  "RazerBlackWidowUltimate2012",
+  "RazerBlackWidowClassic",
+  "RazerBlackWidowClassicAlternate",
+  "RazerBlackWidowUltimate2013",
+  "RazerBlackWidowChroma",
+  "RazerBlackWidowChromaV2",
+  "RazerBlackWidowChromaTournamentEdition",
+  "RazerBlackWidowXChroma",
+  "RazerBlackWidowXTournamentEditionChroma",
+  "RazerBladeStealth",
+  "RazerBladeStealthLate2016",
+  "RazerBladeLate2016",
+  "RazerBladeQHD",
+  "RazerBlackWidowXUltimate",
+  "RazerOrnataChroma",
+  "RazerOrnata",
+  "RazerAnansi",
+  "RazerDeathStalkerExpert",
+  "RazerDeathStalkerChroma",
+  "RazerBlackWidowChromaOverwatch",
+  "RazerBladeStealthMid2017",
+  "RazerBladePro2017FullHD",
+  "RazerBladeStealthLate2017" ];
+
+RazerDevice getRazerDevice(string name) {
+  assert(false);
+}
+
+version(unittest) import fluent.asserts;
+
+/// it should get the razer device by name
+unittest {
+  "0003:1532:0232.0004".getRazerDevice.usbPid.should.equal(0x0232);
 }

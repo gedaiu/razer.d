@@ -8,6 +8,8 @@ import std.file;
 import std.path;
 import std.string;
 
+import razer.hardware;
+
 /// A structure representing the size of a chroma device
 struct Dimension {
   /// 
@@ -47,10 +49,12 @@ RazerChromaDevice[] chromaDevices() {
 class RazerChromaDevice {
   private {
     immutable string basePath;
+    RazerDevice device;
   }
 
   this(const string basePath) {
     this.basePath = basePath;
+    this.device = getRazerDevice(basePath.baseName);
   }
 
   ///

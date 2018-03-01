@@ -13,3 +13,6 @@ razer-test-*
 *.obj
 *.lst
 /razer
+/librazer.a
+/trial-root
+/trial_root.d
