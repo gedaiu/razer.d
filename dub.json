@@ -3,7 +3,7 @@
 	"authors": [
 		"Bogdan Szabo"
 	],
-	"description": "A minimal D application.",
+	"description": "A library that provides direct access to Razer devices.",
 	"copyright": "Copyright © 2018, Bogdan Szabo",
 	"license": "MIT",
 
