@@ -23,9 +23,9 @@ void main() {
   auto gen = Random(unpredictableSeed);
   
   while(true) {
-    foreach(row; 0..6){
+    foreach(row; 0..device.height){
       colors = [];
-      foreach(i; 0..16) {
+      foreach(i; 0..device.width) {
         ubyte r = (uniform(0, 5, gen) * 50).to!ubyte;
         ubyte g = (uniform(0, 5, gen) * 50).to!ubyte;
         ubyte b = (uniform(0, 5, gen) * 50).to!ubyte;

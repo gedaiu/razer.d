@@ -7,6 +7,7 @@ import std.conv;
 import std.file;
 import std.path;
 import std.string;
+import std.exception;
 
 import razer.hardware;
 
@@ -49,8 +50,11 @@ RazerChromaDevice[] chromaDevices() {
 class RazerChromaDevice {
   private {
     immutable string basePath;
-    RazerDevice device;
   }
+
+  RazerDevice device;
+
+  alias device this;
 
   this(const string basePath) {
     this.basePath = basePath;
@@ -94,6 +98,10 @@ class RazerChromaDevice {
 
   /// set a row of colors
   void setKeyRow(ubyte row, Color[] colors) {
+    enforce(device.hasMatrix, "The device does not support custom effects.");
+    enforce(device.height >= row, "The row is too large.");
+    enforce(device.width >= colors.length, "The color list is too large.");
+
     ubyte[] colorList = colors.map!"a.toArray".join;
     ubyte[] list = [ row, 0, colors.length - 1 ].to!(ubyte[]).chain(colorList).array;
 
@@ -102,6 +110,7 @@ class RazerChromaDevice {
 
   /// apply the custom effect
   void flush() {
+    enforce(device.hasMatrix, "The device does not support custom effects.");
     std.file.write(buildPath(basePath, "matrix_effect_custom"), "1");
   }
 }

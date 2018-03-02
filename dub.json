@@ -12,6 +12,11 @@
 
 	"configurations": [
 		{
+			"name": "application",
+			"targetType": "executable",
+			"buildType": ["debugMode", "debugInfo"]
+		},
+		{
 			"name": "trial",
 			"excludedSourceFiles": [
 				"source/app.d"

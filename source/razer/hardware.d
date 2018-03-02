@@ -1,5 +1,8 @@
 module razer.hardware;
 
+import std.format;
+import std.string;
+
 ///
 interface RazerDevice {
   pure {
@@ -425,7 +428,21 @@ enum RazerDevices = [
   "RazerBladeStealthLate2017" ];
 
 RazerDevice getRazerDevice(string name) {
-  assert(false);
+
+  static foreach(Device; RazerDevices) {{
+    mixin("auto device = new " ~ Device ~ "();");
+
+    auto vid = format!"000%X"(device.usbVid)[$-4 .. $];
+    auto pid = format!"000%X"(device.usbPid)[$-4 .. $];
+
+    string part = vid ~ ":" ~ pid;
+
+    if(name.indexOf(part) != -1) {
+      return device;
+    }
+  }}
+
+  assert(false, name ~ " is an unknown device.");
 }
 
 version(unittest) import fluent.asserts;
