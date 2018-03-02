@@ -13,8 +13,14 @@
 	"configurations": [
 		{
 			"name": "application",
-			"targetType": "executable",
-			"buildType": ["debugMode", "debugInfo"]
+			"targetType": "executable"
+		},
+		{
+			"name": "library",
+			"targetType": "library",
+			"excludedSourceFiles": [
+				"source/app.d"
+			],
 		},
 		{
 			"name": "trial",
