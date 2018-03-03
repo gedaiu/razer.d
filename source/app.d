@@ -7,6 +7,9 @@ import std.random;
 import core.thread;
 import core.time;
 import std.conv;
+import std.range;
+import std.algorithm;
+import std.math;
 
 
 void main() {
@@ -19,21 +22,45 @@ void main() {
   writeln("driverVersion: ", device.driverVersion);
   writeln("logoLedState: ", device.logoLedState);
 
-  Color[] colors;
   auto gen = Random(unpredictableSeed);
+
+  double total = device.height * device.width;
   
-  while(true) {
-    foreach(row; 0..device.height){
-      colors = [];
-      foreach(i; 0..device.width) {
-        ubyte r = (uniform(0, 5, gen) * 50).to!ubyte;
-        ubyte g = (uniform(0, 5, gen) * 50).to!ubyte;
-        ubyte b = (uniform(0, 5, gen) * 50).to!ubyte;
+  auto success = Color(0, 200, 0);
+  auto blank = Color(0, 0, 200);
 
-        colors ~= Color(r,g,b);
-      }
+  double percentage = 0.9;
 
-      device.setKeyRow(row.to!ubyte, colors);
+
+  while(percentage < 1) {
+    percentage += 0.001;
+
+     auto colors = iota(0, percentage * total)
+      .map!(a => success)
+      .array;
+
+    auto currentIndex = colors.length / total;
+    auto nextIndex = (colors.length + 1) / total;
+    auto stepSize = nextIndex - currentIndex;
+    auto stepPercentage = 1 - (currentIndex - percentage) / stepSize;
+
+    if(colors.length != total) {
+      colors ~= transition(stepPercentage, blank, success);
+      colors ~= iota(colors.length, total).map!(a => blank).array;
+    }
+
+    if(colors.length < total - 1) {
+      colors ~= iota(colors.length, total).map!(a => blank).array;
+    }
+
+    auto rows = colors.evenChunks(device.height)
+        .enumerate
+        .map!(a => a.index % 2 ? a.value.array.reverse.array : a.value.array)
+        .enumerate
+        .array;
+
+    foreach(row; rows) {
+      device.setKeyRow(row.index.to!ubyte, row.value);
     }
 
     device.flush;

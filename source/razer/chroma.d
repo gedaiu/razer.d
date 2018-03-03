@@ -37,6 +37,15 @@ struct Color {
   }
 }
 
+/// Get an itermiedary color based on a value from 0 and 1 interval
+Color transition(double percent, Color from, Color to) {
+  auto r = from.red + ( (to.red - from.red) * percent );
+  auto g = from.green + ( (to.green - from.green) * percent );
+  auto b = from.blue + ( (to.blue - from.blue) * percent );
+
+  return Color(r.to!ubyte, g.to!ubyte, b.to!ubyte);
+}
+
 /// Return the razer chroma devices that are connected to your computer
 RazerChromaDevice[] chromaDevices() {
   return dirEntries("/sys/bus/hid/drivers/razerkbd/", SpanMode.shallow)
